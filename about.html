@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Shivam Patil</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <main class="main">
+      <section class="about">
+        <div style="margin-bottom: 2rem; text-align: center;">
+          <a href="index.html" class="btn btn-primary">← Back to Home</a>
+        </div>
+
+        <div class="section-header">
+          <h1 class="section-title" id="typing-heading"></h1>
+          <div class="section-line"></div>
+        </div>
+        <div id="typing-text" class="about-description"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const heading = "👨‍💻 About Shivam";
+    const aboutLines = [
+      "I'm Shivam Patil, a DevOps Engineer focused on automation, cloud infrastructure, and CI/CD pipelines.",
+      "I work with Jenkins, GitHub Actions, Docker, Kubernetes, Terraform, AWS, and Azure.",
+      "In my free time, I explore AI, contribute to open-source, and build smart automation tools."
+    ];
+
+    let hIndex = 0;
+    let tIndex = 0;
+    const typingSpeed = 50;
+
+    function typeHeading() {
+      if (hIndex < heading.length) {
+        document.getElementById("typing-heading").textContent += heading.charAt(hIndex);
+        hIndex++;
+        setTimeout(typeHeading, typingSpeed);
+      } else {
+        setTimeout(() => typeLine(0), 500);
+      }
+    }
+
+    function typeLine(lineIndex) {
+      if (lineIndex >= aboutLines.length) return;
+
+      const line = aboutLines[lineIndex];
+      let charIndex = 0;
+
+      const p = document.createElement("p");
+      p.style.marginBottom = "1rem";
+      p.style.color = "var(--text-secondary)";
+      p.style.lineHeight = "1.8";
+      document.getElementById("typing-text").appendChild(p);
+
+      function typeChar() {
+        if (charIndex < line.length) {
+          p.textContent += line.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeChar, typingSpeed);
+        } else {
+          setTimeout(() => typeLine(lineIndex + 1), 300);
+        }
+      }
+
+      typeChar();
+    }
+
+    window.onload = typeHeading;
+  </script>
+
+</body>
+</html>
