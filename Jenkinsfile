@@ -4,8 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-         git branch: 'main', url: 'https://github.com/Shivm-ops/devops-portfolio.git'
-
+                git branch: 'main', url: 'https://github.com/Shivm-ops/devops-portfolio.git'
             }
         }
 
@@ -14,8 +13,8 @@ pipeline {
                 script {
                     if (fileExists('package.json')) {
                         sh 'npm install'
-                    } else if (fileExists('requirements.txt')) {
-                        sh 'pip install -r requirements.txt'
+                    } else {
+                        echo 'No build required for static files'
                     }
                 }
             }
@@ -25,9 +24,9 @@ pipeline {
             steps {
                 script {
                     if (fileExists('package.json')) {
-                        sh 'npm test'
-                    } else if (fileExists('requirements.txt')) {
-                        sh 'pytest || exit 1'
+                        sh 'npm test || exit 1'
+                    } else {
+                        echo 'No tests defined'
                     }
                 }
             }
@@ -35,24 +34,23 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh """
-                    sh """
-                     sudo mkdir -p /var/www/html/myapp/
-                     sudo rm -rf /var/www/html/myapp/*
-                    sudo cp -r * /var/www/html/myapp/
-
-"""
-
+                script {
+                    // Ensure folder exists
+                    sh 'mkdir -p /var/www/html/myapp/'
+                    // Copy files
+                    sh 'cp -r * /var/www/html/myapp/'
+                    echo 'Deployment complete!'
+                }
             }
         }
     }
 
     post {
         success {
-            echo "✅ Build Success!"
+            echo "✅ Build & Deploy Successful!"
         }
         failure {
-            echo "❌ Build Failed!"
+            echo "❌ Build Failed! Check logs."
         }
     }
 }
