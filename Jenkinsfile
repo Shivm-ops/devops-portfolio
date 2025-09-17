@@ -36,9 +36,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh """
-                     rm -rf /var/www/html/myapp/*
-                     cp -r * /var/www/html/myapp/
-                """
+                    sh """
+                     sudo mkdir -p /var/www/html/myapp/
+                     sudo rm -rf /var/www/html/myapp/*
+                    sudo cp -r * /var/www/html/myapp/
+
+"""
+
             }
         }
     }
