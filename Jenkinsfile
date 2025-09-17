@@ -33,16 +33,17 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                script {
-                    // Ensure folder exists
-                    sh 'mkdir -p /var/www/html/myapp/'
-                    // Copy files
-                    sh 'cp -r * /var/www/html/myapp/'
-                    echo 'Deployment complete!'
-                }
-            }
+    steps {
+        script {
+            // Clear old files
+            sh 'rm -rf /var/www/html/myapp/*'
+            // Copy new files
+            sh 'cp -r * /var/www/html/myapp/'
+            echo 'Deployment complete!'
         }
+    }
+}
+
     }
 
     post {
