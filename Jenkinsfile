@@ -46,12 +46,22 @@ pipeline {
 
     }
 
-    post {
-        success {
-            echo "✅ Build & Deploy Successful!"
-        }
-        failure {
-            echo "❌ Build Failed! Check logs."
-        }
+    
+post {
+    success {
+        echo "✅ Build & Deploy Successful!"
+        mail to: 'shivmaptil2309@gmail.com',
+             subject: "✅ SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+             body: """Good news!  
+The pipeline succeeded for ${env.JOB_NAME} #${env.BUILD_NUMBER}.  
+Check details: ${env.BUILD_URL}"""
+    }
+    failure {
+        echo "❌ Build Failed! Check logs."
+        mail to: 'shivmaptil2309@gmail.com',
+             subject: "❌ FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+             body: """Uh oh!  
+The pipeline failed for ${env.JOB_NAME} #${env.BUILD_NUMBER}.  
+Check logs: ${env.BUILD_URL}"""
     }
 }
