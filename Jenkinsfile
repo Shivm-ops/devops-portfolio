@@ -33,35 +33,34 @@ pipeline {
         }
 
         stage('Deploy') {
-    steps {
-        script {
-            // Clear old files
-            sh 'rm -rf /var/www/html/myapp/*'
-            // Copy new files
-            sh 'cp -r * /var/www/html/myapp/'
-            echo 'Deployment complete!'
+            steps {
+                script {
+                    // Clear old files
+                    sh 'rm -rf /var/www/html/myapp/*'
+                    // Copy new files
+                    sh 'cp -r * /var/www/html/myapp/'
+                    echo 'Deployment complete!'
+                }
+            }
         }
     }
-}
 
-    }
-
-    
-post {
-    success {
-        echo "✅ Build & Deploy Successful!"
-        mail to: 'shivmaptil2309@gmail.com',
-             subject: "✅ SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-             body: """Good news!  
+    post {
+        success {
+            echo "✅ Build & Deploy Successful!"
+            mail to: 'shivmaptil2309@gmail.com',
+                 subject: "✅ SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: """Good news!  
 The pipeline succeeded for ${env.JOB_NAME} #${env.BUILD_NUMBER}.  
 Check details: ${env.BUILD_URL}"""
-    }
-    failure {
-        echo "❌ Build Failed! Check logs."
-        mail to: 'shivmaptil2309@gmail.com',
-             subject: "❌ FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-             body: """Uh oh!  
+        }
+        failure {
+            echo "❌ Build Failed! Check logs."
+            mail to: 'shivmaptil2309@gmail.com',
+                 subject: "❌ FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: """Uh oh!  
 The pipeline failed for ${env.JOB_NAME} #${env.BUILD_NUMBER}.  
 Check logs: ${env.BUILD_URL}"""
+        }
     }
 }
